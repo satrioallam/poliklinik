@@ -1,0 +1,147 @@
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(120deg, #333A73, #50C4ED);
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    animation: fadeInUp 1.5s ease-out;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 80%;
+    flex-wrap: wrap;
+}
+
+.left-section,
+.right-section {
+    width: 48%;
+    margin-bottom: 20px;
+}
+
+.header {
+    margin-top: 18px;
+    margin-bottom: 40px;
+    text-align: left;
+    width: 100%;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: bold;
+    
+}
+
+.header h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    animation: fadeInUp 2s ease-out;
+    
+}
+
+.header p {
+    font-size: 1.5rem;
+    animation: fadeInUp 2.5s ease-out;
+
+}
+
+.photo-section img {
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    animation: fadeInUp 3s ease-out;
+}
+
+.description {
+    font-size: 1.2rem;
+    animation: fadeInUp 3.5s ease-out;
+    margin-top: 20px;
+    text-align: justify;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.map {
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    animation: fadeInUp 3s ease-out;
+}
+
+.social-media {
+    margin-top: 30px;
+    text-align: center;
+    animation: fadeInUp 4.5s ease-out;
+}
+
+.social-media a {
+    margin: 0 1px;
+    font-size: 1.5rem;
+    color: #fff;
+    transition: color 0.3s ease;
+}
+
+.social-media a:hover {
+    color: #f0f0f0;
+}
+
+.login-buttons .btn {
+    width: 250px;
+    padding: 15px;
+    /* margin: 10px 10px; */
+    margin-top: 0;
+    margin-bottom: 40px;
+    border-radius: 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    animation: fadeInUp 5s ease-out;
+}
+
+.btn-admin {
+    background-color: #65c2f5;
+    border: none;
+
+}
+
+.btn-admin:hover {
+    background-color: #3CA3D9 ;
+}
+
+.btn-user {
+    background-color: #0067b6;
+    border: none;
+}
+
+.btn-user:hover {
+    background-color: #3CA3D9;
+}
+
+@media (max-width: 768px) {
+
+    .left-section,
+    .right-section {
+        width: 100%;
+    }
+
+    .login-buttons .btn {
+        width: 100%;
+    }
+}
