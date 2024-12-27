@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Session;
 
 use Illuminate\Http\Request;
 use App\Models\Pasien;
@@ -10,27 +12,27 @@ class LoginPasienController extends Controller
 {
     public function showLoginForm()
     {
+        if (Session::has('pasien_id')) {
+            return redirect()->route('pasien.dashboard');
+        }
         return view('auth.loginpasien');
     }
 
-    
     public function login(Request $request)
     {
-        // Validasi input login
 
         $request->validate([
             'username' => 'required|string',
             'password' => 'required|numeric',
         ]);
-        // Cari pasien berdasarkan No KTP atau Nama Lengkap
         $pasien = Pasien::where('no_ktp', $request->username)
-                        ->orWhere('nama', $request->username)
-                        ->first();
+            ->orWhere('nama', $request->username)
+            ->first();
         if ($pasien && $pasien->no_hp == $request->password) {
             session(['pasien_id' => $pasien->id, 'pasien_nama' => $pasien->nama]);
             return redirect()->route('pasien.dashboard', ['id' => $pasien->id])
                 ->with('success', 'Login berhasil, selamat datang ' . $pasien->nama);
-        } 
+        }
 
 
         return back()->withErrors(['username' => 'Username atau password salah.']);
@@ -43,15 +45,14 @@ class LoginPasienController extends Controller
 
     public function register(Request $request)
     {
-     
-        // Validasi input pendaftaran
+
         $validator = Validator::make($request->all(), [
             'no_ktp' => 'required|numeric|digits:10|unique:pasien,no_ktp',
             'nama' => 'required|string|max:150',
             'alamat' => 'required|string|max:255',
             'no_hp' => 'required|numeric|digits_between:10,15',
         ]);
-    
+
         if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors()
@@ -79,5 +80,11 @@ class LoginPasienController extends Controller
         $count = Pasien::where('no_rm', 'like', $datePrefix . '%')->count();
         $noUrut = str_pad($count + 1, 3, '0', STR_PAD_LEFT);
         return $datePrefix . '-' . $noUrut;
+    }
+    public function logout()
+    {
+        Session::forget(['pasien_id', 'pasien_nama']);
+        return redirect()->route('pasien.loginForm')
+            ->with('success', 'Anda telah berhasil logout.');
     }
 }

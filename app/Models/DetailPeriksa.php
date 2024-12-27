@@ -8,6 +8,7 @@ class DetailPeriksa extends Model
 {
     protected $table = 'detail_periksa';
     protected $fillable = ['id_periksa', 'id_obat'];
+    public $timestamps = false; // Disable timestamps
 
     public function periksa()
     {

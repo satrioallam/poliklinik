@@ -18,7 +18,7 @@
             <div class="collapse" id="datamaster">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{ route('poli.schedule') }}">
                             <i class="mdi mdi-doctor"></i> Daftar Poli
                         </a>
                     </li>

@@ -2,18 +2,12 @@
 <html lang="en">
 
 <head>
+
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Dashboard Dokter</title>
-
-    <!-- Bootstrap CSS (only once from CDN) -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Bootstrap Select CSS (only once from CDN) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css">
-
-    <!-- Other CSS (consider removing duplicates if any) -->
+    <!-- plugins:css -->
     <link rel="stylesheet" href="{{ asset('assets/src/assets/vendors/feather/feather.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/src/assets/vendors/mdi/css/materialdesignicons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/src/assets/vendors/ti-icons/css/themify-icons.css') }}">
@@ -21,24 +15,40 @@
     <link rel="stylesheet" href="{{ asset('assets/src/assets/vendors/typicons/typicons.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/src/assets/vendors/simple-line-icons/css/simple-line-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/src/assets/vendors/css/vendor.bundle.base.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/src/assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css') }}">
+    <link
+        rel="stylesheet"href="{{ asset('assets/src/assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css') }}">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
     <link rel="stylesheet" href="{{ asset('assets/src/assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/src/assets/js/select.dataTables.min.css') }}">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
     <link rel="stylesheet" href="{{ asset('assets/src/assets/css/style.css') }}">
+    <!-- endinject -->
     <link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.png') }}" sizes="32x32">
+
 </head>
 
 <body>
+    <!-- partial:partials/_navbar.html -->
     <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
             <div class="me-3">
-                <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-bs-toggle="minimize">
+                <button class="navbar-toggler navbar-toggler align-self-center" type="button"
+                    data-bs-toggle="minimize">
                     <span class="icon-menu"></span>
                 </button>
             </div>
             <div>
-                <a class="navbar-brand brand-logo" href="#">
+                <a class="navbar-brand brand-logo" href="/panel/dashboardadmin">
                     <img src="{{ asset('assets/img/favicon.png') }}" alt="logo" />
                 </a>
                 <a class="navbar-brand brand-logo-mini" href="index.html">
@@ -65,14 +75,19 @@
                     <div class="input-group date datepicker navbar-date-picker">
                         <div class="clock" id="clock"></div>
                     </div>
+
+
                 </li>
                 <li class="nav-item dropdown d-none d-lg-block user-dropdown">
-                    <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img class="img-xs rounded-circle" src="{{ asset('/assets/img/favicon.png') }}" alt="Profile image">
+                    <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <img class="img-xs rounded-circle"
+                            src="{{ asset('/assets/img/favicon.png') }}" alt="Profile image">
                     </a>
                 </li>
             </ul>
-            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-bs-toggle="offcanvas">
+            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+                data-bs-toggle="offcanvas">
                 <span class="mdi mdi-menu"></span>
             </button>
         </div>
@@ -88,42 +103,56 @@
         <main role="main" class="col-12 col-sm-12 col-md-9 ml-sm-auto col-lg-10 px-4 px-sm-3">
             @yield('content')
         </main>
+
     </div>
-    <!-- jQuery (only once from CDN) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- Bootstrap JS (only once from CDN) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- plugins:js -->
+<script src="{{ asset('assets/src/assets/vendors/js/vendor.bundle.base.js') }}"></script>
+<script src="{{ asset('assets/src/assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
 
-    <!-- Bootstrap Select JS (only once from CDN) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page -->
+<script src="{{ asset('assets/src/assets/vendors/chart.js/chart.umd.js') }}"></script>
+<script src="{{ asset('assets/src/assets/vendors/progressbar.js/progressbar.min.js') }}"></script>
+<!-- End plugin js for this page -->
+<!-- inject:js -->
+<script src="{{ asset('assets/src/assets/js/off-canvas.js') }}"></script>
+<script src="{{ asset('assets/src/assets/js/template.js') }}"></script>
+<script src="{{ asset('assets/src/assets/js/settings.js') }}"></script>
+<script src="{{ asset('assets/src/assets/js/hoverable-collapse.js') }}"></script>
+<script src="{{ asset('assets/src/assets/js/todolist.js') }}"></script>
+<!-- endinject -->
+<!-- Custom js for this page-->
+<script src="{{ asset('assets/src/assets/js/jquery.cookie.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/src/assets/js/dashboard.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <!-- Bootstrap Datepicker JS (only once from CDN) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<!-- Bootstrap Datepicker CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+    rel="stylesheet">
 
-    <!-- Other scripts (make sure these don't conflict) -->
-    <script src="{{ asset('assets/src/assets/js/off-canvas.js') }}"></script>
-    <script src="{{ asset('assets/src/assets/js/template.js') }}"></script>
-    <script src="{{ asset('assets/src/assets/js/settings.js') }}"></script>
-    <script src="{{ asset('assets/src/assets/js/hoverable-collapse.js') }}"></script>
-    <script src="{{ asset('assets/src/assets/js/todolist.js') }}"></script>
-    <script src="{{ asset('assets/src/assets/js/dashboard.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script>
-        // Your datepicker initialization (no changes needed)
-        $(document).ready(function() {
-            $('#tanggal').datepicker({
-                format: 'dd-mm-yyyy',
-                autoclose: true,
-                todayHighlight: true
-            });
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+<!-- Bootstrap Datepicker JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#tanggal').datepicker({
+            format: 'dd-mm-yyyy', // Format tanggal
+            autoclose: true, // Menutup otomatis setelah memilih tanggal
+            todayHighlight: true // Menyoroti tanggal hari ini
         });
-    </script>
+    });
+</script>
 
-    <script>
-        // Your clock function (no changes needed)
-        function updateClock() {
+<script>
+     function updateClock() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
@@ -132,12 +161,11 @@
             document.getElementById('clock').textContent = currentTime;
         }
 
-        setInterval(updateClock, 1000);
-        updateClock();
-    </script>
+        setInterval(updateClock, 1000); // Update clock every second
+        updateClock(); // Initial call to display the clock immediately
+</script>
 
-    <!-- Render scripts pushed via @push('scripts') -->
-    @stack('scripts')
 </body>
+
 
 </html>
