@@ -26,7 +26,6 @@ class LoginDokterController extends Controller
         $dokter = Dokter::where('nama', $request->username)->first();
 
         if ($dokter && $dokter->no_hp == $request->password) {
-            // Store doctor data in session
             Session::put('dokter_id', $dokter->id);
             Session::put('dokter_nama', $dokter->nama);
             Session::put('dokter_poli', $dokter->id_poli);

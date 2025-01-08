@@ -18,7 +18,7 @@
         </div>
         <div class="form-group">
             <label for="id_poli">Poli:</label>
-            <select name="id_poli" id="id_poli" class="form-control" required>
+            <select name="id_poli" id="id_poli" class="form-control" readonly disabled>
                 <option value="1" {{ $dokter->id_poli == 1 ? 'selected' : '' }}>Poli Umum</option>
                 <option value="2" {{ $dokter->id_poli == 2 ? 'selected' : '' }}>Poli Gigi</option>
                 <!-- Tambahkan opsi lainnya -->

@@ -3,25 +3,92 @@
 namespace App\Http\Controllers;
 
 use App\Models\DaftarPoli;
-use Illuminate\Http\Request;
-use App\Models\Dokter;
-use App\Models\JadwalPeriksa;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\DB;
-
 use App\Models\Pasien;
+use App\Models\JadwalPeriksa;
+use App\Models\Poli;
+use App\Models\Dokter;
 use App\Models\Periksa;
-use App\Models\DetailPeriksa;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+
 
 class DokterController extends Controller
 {
-    public function __construct() {}
-
     public function dashboard()
     {
         $dokter = Dokter::findOrFail(Session::get('dokter_id'));
         return view('dokter.dashboard', compact('dokter'));
     }
+
+    public function index()
+    {
+        $poli = Poli::all();
+        $riwayat = DaftarPoli::with(['jadwalPeriksa.dokter.poli', 'periksa'])
+            ->where('id_pasien', Auth::id())
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('poli.daftar', compact('poli', 'riwayat'));
+    }
+
+    public function getDoctors($poliId)
+    {
+        $doctors = Dokter::with(['jadwalPeriksa' => function ($query) {
+            $query->where('aktif', true);
+        }])
+            ->where('id_poli', $poliId)
+            ->get();
+
+        return response()->json($doctors);
+    }
+
+    public function daftar(Request $request)
+    {
+        $validated = $request->validate([
+            'poli_id' => 'required|exists:poli,id',
+            'id_jadwal' => 'required|exists:jadwal_periksa,id',
+            'keluhan' => 'required|string'
+        ]);
+
+        $latestAntrian = DaftarPoli::where('id_jadwal', $request->id_jadwal)
+            ->orderBy('no_antrian', 'desc')
+            ->first();
+
+        $noAntrian = $latestAntrian ? $latestAntrian->no_antrian + 1 : 1;
+
+        DaftarPoli::create([
+            'id_pasien' => Auth::id(),
+            'id_jadwal' => $validated['id_jadwal'],
+            'keluhan' => $validated['keluhan'],
+            'no_antrian' => $noAntrian
+        ]);
+
+        return redirect()->route('poli.index')->with('success', 'Pendaftaran berhasil');
+    }
+
+    public function getDoctorsV2($poliId)
+    {
+        $doctors = Dokter::where('id_poli', $poliId)->get();
+        return response()->json($doctors);
+    }
+    public function getSchedule($doctorId)
+    {
+        $schedule = JadwalPeriksa::with(['dokter.poli'])
+            ->where('id_dokter', $doctorId)
+            ->whereIn('id', function ($query) {
+                $query->select(DB::raw('MIN(id)'))
+                    ->from('jadwal_periksa')
+                    ->groupBy('id_dokter');
+            })
+            ->orderBy('id')
+            ->first();
+
+        return response()->json($schedule);
+    }
+
 
     public function editProfile()
     {

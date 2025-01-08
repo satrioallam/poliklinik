@@ -9,6 +9,8 @@ use App\Models\Obat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Exception;
+use Illuminate\Support\Facades\Session;
+use App\Models\Pasien;
 
 class PeriksaController extends Controller
 {
@@ -51,13 +53,11 @@ class PeriksaController extends Controller
             ]);
 
             DB::beginTransaction();
-            // Check for existing examination
             $existingPeriksa = Periksa::where('id_daftar_poli', $request->id_daftar_poli)->first();
             if ($existingPeriksa) {
                 throw new Exception('Pasien ini sudah diperiksa sebelumnya.');
             }
 
-            // Create examination record
             $periksa = Periksa::create([
                 'id_daftar_poli' => $validated['id_daftar_poli'],
                 'tgl_periksa' => $validated['tgl_periksa'],
@@ -90,16 +90,42 @@ class PeriksaController extends Controller
 
     public function listPasien()
     {
-        $daftarPoli = DaftarPoli::with(['pasien', 'jadwalPeriksa.dokter'])
+        $dokterId = Session::get('dokter_id');
+
+        $daftarPoli = DaftarPoli::whereHas('jadwalPeriksa', function ($query) use ($dokterId) {
+            $query->where('id_dokter', $dokterId);
+        })
             ->whereDoesntHave('periksa')
+            ->with(['pasien', 'jadwalPeriksa'])
             ->orderBy('no_antrian')
             ->get();
 
         return view('periksa.list', compact('daftarPoli'));
     }
 
+    public function show($id)
+    {
+        $dokterId = Session::get('dokter_id');
+
+        $daftarPoli = DaftarPoli::with(['pasien', 'jadwalPeriksa'])
+            ->whereHas('jadwalPeriksa', function ($query) use ($dokterId) {
+                $query->where('id_dokter', $dokterId);
+            })->findOrFail($id);
+
+        if (!$daftarPoli) {
+            return redirect()->back()
+                ->with('error', 'Anda tidak memiliki akses ke data pasien ini.');
+        }
+
+        return view('dokter.detail-pasien', [
+            'daftar' => $daftarPoli
+        ]);
+    }
+
+
     public function riwayatPasien()
     {
+
         $riwayat = Periksa::with([
             'daftarPoli.pasien',
             'daftarPoli.jadwalPeriksa.dokter',
@@ -107,6 +133,7 @@ class PeriksaController extends Controller
         ])
             ->latest('tgl_periksa')
             ->paginate(10);
+
 
         return view('periksa.riwayat', compact('riwayat'));
     }

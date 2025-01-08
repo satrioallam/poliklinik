@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\DaftarPoli;
 use App\Models\JadwalPeriksa;
 use App\Models\Pasien;
+use App\Models\Poli;
+use App\Models\Dokter;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
@@ -31,7 +34,21 @@ class PasienController extends Controller
 
     public function listJadwal()
     {
-        $jadwal = JadwalPeriksa::with(['dokter', 'dokter.poli'])
+        $pasien_id = Session::get('pasien_id');
+        $pasien = Pasien::findOrFail($pasien_id);
+
+        $poli = Poli::with(['dokter' => function ($query) {
+            $query->whereHas('jadwalPeriksa');
+        }])->get();
+
+        $riwayat = DaftarPoli::with([
+            'jadwalPeriksa.dokter.poli',
+            'periksa.detailPeriksa.obat'
+        ])
+            ->where('id_pasien', $pasien_id)
+            ->get();
+
+        $jadwal = JadwalPeriksa::with(['dokter.poli'])
             ->whereIn('id', function ($query) {
                 $query->select(DB::raw('MIN(id)'))
                     ->from('jadwal_periksa')
@@ -40,9 +57,25 @@ class PasienController extends Controller
             ->orderBy('id')
             ->get();
 
-
-        return view('poli.jadwal', compact('jadwal'));
+        return view('poli.jadwal', compact('poli', 'jadwal', 'riwayat', 'pasien'));
     }
+
+
+
+    public function getDoctorsByPoli($poliId)
+    {
+        $doctors = Dokter::where('id_poli', $poliId)
+            ->whereHas('jadwalPeriksa')
+            ->with(['jadwalPeriksa' => function ($query) {
+                $query->orderBy('hari');
+            }])
+            ->get();
+
+        return response()->json($doctors);
+    }
+
+
+
     public function daftarPoliForm($idJadwal)
     {
         $jadwal = JadwalPeriksa::with(['dokter', 'dokter.poli'])->findOrFail($idJadwal);
@@ -53,10 +86,6 @@ class PasienController extends Controller
 
     public function daftarPoli(Request $request)
     {
-        $request->validate([
-            'id_jadwal' => 'required|exists:jadwal_periksa,id',
-            'keluhan' => 'required|string|max:255',
-        ]);
 
         $lastAntrian = DaftarPoli::where('id_jadwal', $request->id_jadwal)
             ->max('no_antrian');
@@ -98,7 +127,7 @@ class PasienController extends Controller
     // View appointment history
     public function riwayatPendaftaran()
     {
-        $riwayat = DaftarPoli::with(['jadwal.dokter', 'jadwal.dokter.poli'])
+        $riwayat = DaftarPoli::with(['jadwal.dokter.poli'])
             ->where('id_pasien', Session::get('pasien_id'))
             ->get();
 

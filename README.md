@@ -66,26 +66,15 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 
+
 ## Langkah untuk penginstalan
 1. lakukan clone
-2. composer install
-4. copy folder env
-3. Jika ingin menggunakan DB (DataBase) pada folder .env pada SESSION_DRIVER ubah menjadi file
-5. Dalam file .env ubah menjadi
-
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=bk_poliklinik
-DB_USERNAME=root
-DB_PASSWORD=
-
-4. admin : 
-user admin 
-pass 1234567891
-5. dokter 
-user zen
-pass 1234567892
-6. pasien
-user abdul
-pass 987654321
+2. Pastikan versi PHP >=8.2
+3. composer install
+4. Copy folder env
+5. Jika ingin menggunakan DB (DataBase) pada folder env pada SESSION_DRIVER ubah menjadi file
+6. Dalam file .env ubah menjadi
+DB_CONNECTION=mysql DB_HOST=127.0.0.1 DB_PORT=3306 DB_DATABASE=bk_poliklinik DB_USERNAME=root DB_PASSWORD=
+7. admin : user admin pass 1234567891
+8. dokter user zen pass 1234567892
+9. pasien user abdul pass 987654321 

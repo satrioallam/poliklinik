@@ -9,6 +9,8 @@ use App\Http\Controllers\PeriksaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\DokterMiddleware;
 use App\Http\Middleware\AdminMiddleware;
+use App\Models\JadwalPeriksa;
+
 use App\Http\Middleware\PasienMiddleware;
 
 Route::get('/', function () {
@@ -74,6 +76,8 @@ Route::middleware([AdminMiddleware::class])->group(function () { // Use your cus
     Route::put('/obat/{id}', [AdminController::class, 'updateObat'])->name('obat.update');
     Route::delete('/obat/{id}', [AdminController::class, 'deleteObat'])->name('obat.delete');
 });
+Route::get('/get-doctors/{poliId}', [DokterController::class, 'getDoctorsV2']);
+Route::get('/get-schedule/{doctorId}', [DokterController::class, 'getSchedule']);
 
 // Protected Pasien Routes
 Route::middleware([PasienMiddleware::class])->group(function () {

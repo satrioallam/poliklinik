@@ -58,6 +58,11 @@
         .description {
             margin-bottom: 30px;
         }
+
+        .login-buttons h4 {
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -85,9 +90,9 @@
                     </div>
 
                     <div class="login-buttons mb-4">
-                        <h4 class="text-center mb-3">Silahkan Login</h4>
-                        <a href="{{ route('dokter.loginForm') }}" class="btn btn-primary btn-block mb-2">Login Dokter</a>
-                        <a href="{{ route('pasien.loginForm') }}" class="btn btn-success btn-block">Login Pasien</a>
+                        <h4 class="text-center">Silahkan Login</h4>
+                        <a href="{{ route('dokter.loginForm') }}" class="btn btn-primary btn-lg">Login Dokter</a>
+                        <a href="{{ route('pasien.loginForm') }}" class="btn btn-success btn-lg">Login Pasien</a>
                     </div>
 
                     <div class="social-media text-center">
